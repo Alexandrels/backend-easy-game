@@ -1,14 +1,10 @@
 package br.com.easygame.teste;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.StringReader;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
 import javax.json.JsonObject;
@@ -21,7 +17,6 @@ import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.JogadorDAO;
@@ -29,7 +24,6 @@ import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Jogador;
 import br.com.easygame.entity.Usuario;
-import junit.framework.Assert;
 
 public class EquipeDAOTeste {
 	private EntityManager entityManager;

@@ -25,9 +25,6 @@
 	<persistence-unit name="easy-game" transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<jta-data-source>jdbc/easy-game</jta-data-source>
-		<class>br.com.easygame.entity.Usuario</class>
-		<class>br.com.easygame.entity.Jogador</class>
-		<class>br.com.easygame.entity.Equipe</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
