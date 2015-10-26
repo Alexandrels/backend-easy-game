@@ -15,6 +15,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriBuilder;
 
 import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.dao.EquipeDAO;
@@ -31,9 +34,10 @@ import br.com.easygame.entity.Usuario;
 @Path(value = "equipe")
 public class EquipeService {
 
+	//fez tudo OK HTTP CREATED 201
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String cadastrarEquipe(String json) throws Exception {
+	public Response cadastrarEquipe(String json) throws Exception {
 		EntityManager entityManager = null;
 		try {
 			entityManager = ProducerEntityManager.getEntityManager();
@@ -42,15 +46,22 @@ public class EquipeService {
 			Equipe equipeJson = Equipe.toEquipe(json);
 			equipeDAO.salvar(equipeJson);
 
-			return Json.createObjectBuilder().add("equipe", "salvo com sucesso").build().toString();
+			Response response = Response.status(Response.Status.CREATED)
+					.entity("sadjgdagsdjh")
+					.location(UriBuilder.fromUri("dsds").build(equipeJson.getId())).build();
+			//localhost:8080/easy-game/equipe/19
+			return response;
 		} catch (Exception e) {
 			e.getCause();
+			Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+					.entity("json").build();
 		} finally {
 			if (entityManager != null) {
 				entityManager.close();
 			}
 		}
-		return Json.createObjectBuilder().add("erro", "Não salvou o equipe").build().toString();
+		//return Json.createObjectBuilder().add("erro", "Não salvou o equipe").build().toString();
+		return null;
 	}
 
 	@GET

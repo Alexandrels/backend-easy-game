@@ -37,9 +37,9 @@ public class Equipe implements Serializable {
 	private String nome;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "equipe_has_jogador", joinColumns = {
-			@JoinColumn(referencedColumnName = "id_equipe") }, inverseJoinColumns = {
-					@JoinColumn(referencedColumnName = "id_jogador") })
+	@JoinTable(name = "equipe_has_jogador", 
+		joinColumns = { @JoinColumn(name = "id_equipe") }, 
+		inverseJoinColumns = { @JoinColumn(name = "id_jogador") })
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 
 	// @JoinTable(name = "usuario_permissao", joinColumns = { @JoinColumn(name =
@@ -117,7 +117,7 @@ public class Equipe implements Serializable {
 		Equipe equipe = new Equipe();
 
 		JsonReader jsonReader = Json.createReader(new StringReader(json));
-		JsonObject jsonObject = jsonReader.readObject();  
+		JsonObject jsonObject = jsonReader.readObject();
 		if (!jsonObject.containsKey("nome")) {
 			throw new IllegalArgumentException("Atributo 'nome' é obrigatório");
 		}
