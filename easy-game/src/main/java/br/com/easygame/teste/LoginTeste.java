@@ -6,10 +6,7 @@ import java.io.IOException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import br.com.easygame.dao.JogadorDAO;
 import br.com.easygame.dao.UsuarioDAO;
-import br.com.easygame.entity.Jogador;
-import br.com.easygame.entity.Usuario;
 
 public class LoginTeste {
 

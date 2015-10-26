@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 
 import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.dao.EquipeDAO;
-import br.com.easygame.dao.JogadorDAO;
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Usuario;

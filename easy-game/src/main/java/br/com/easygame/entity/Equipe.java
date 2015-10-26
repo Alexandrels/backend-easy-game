@@ -41,12 +41,11 @@ public class Equipe implements Serializable {
 			@JoinColumn(referencedColumnName = "id_equipe") }, inverseJoinColumns = {
 					@JoinColumn(referencedColumnName = "id_jogador") })
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
+	
+	public Equipe() {
+		// TODO Auto-generated constructor stub
+	}
 
-	// @JoinTable(name = "usuario_permissao", joinColumns = { @JoinColumn(name =
-	// "id_usuario") }, inverseJoinColumns = { @JoinColumn(name =
-	// "id_permissao") })
-	// private Set<Permissao> permissoes = new TreeSet<Permissao>(new
-	// OrdenaPermissaoPorDescricao());
 
 	public Long getId() {
 		return id;

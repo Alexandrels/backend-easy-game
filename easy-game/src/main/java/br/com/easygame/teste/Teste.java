@@ -8,11 +8,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-
-import br.com.easygame.entity.Jogador;
-import br.com.easygame.entity.Usuario;
 
 public class Teste {
 

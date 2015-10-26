@@ -10,8 +10,6 @@ import javax.persistence.EntityManager;
 
 import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.entity.Equipe;
-import br.com.easygame.entity.Jogador;
-import br.com.easygame.entity.Usuario;
 
 /**
  * @author mobilesys.alexandre
