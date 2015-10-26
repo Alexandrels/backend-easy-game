@@ -42,8 +42,8 @@ public class EquipeDAOTeste {
 
 	@After
 	public void depois() {
-		entityManager.getTransaction().commit();
-		// entityManager.getTransaction().rollback();
+		//entityManager.getTransaction().commit();
+		entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
 
