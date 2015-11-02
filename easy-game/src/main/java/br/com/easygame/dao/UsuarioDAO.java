@@ -29,6 +29,10 @@ public class UsuarioDAO {
 
 	}
 
+	public void flush() {
+		entityManager.flush();
+	}
+
 	// um detalhe que esqueci, sempre que usar um EntityManager, depois de
 	// utilizar ele SEMPRE tem que
 	// fechar ele, se não fechar ele fica mantendo uma conexão com o banco
@@ -68,9 +72,9 @@ public class UsuarioDAO {
 	public List<Usuario> listar(TipoUsuario tipoUsuario) {
 		try {
 			StringBuilder builder = new StringBuilder(" SELECT u FROM Usuario u ")
-					.append(" WHERE u.tipoUsuario = :tipoUsuario ");
+					.append(" WHERE u.tipoUsuario LIKE ")
+					.append(" '%"+tipoUsuario.ordinal()+"%' ");
 			return entityManager.createQuery(builder.toString(), Usuario.class)
-					.setParameter("tipoUsuario", tipoUsuario)
 					.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Usuario>();

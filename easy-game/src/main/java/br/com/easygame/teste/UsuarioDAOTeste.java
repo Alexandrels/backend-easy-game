@@ -2,6 +2,7 @@ package br.com.easygame.teste;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.json.Json;
@@ -47,21 +48,24 @@ public class UsuarioDAOTeste {
 
 	@After
 	public void depois() {
-		// entityManager.getTransaction().commit();
-		entityManager.getTransaction().rollback();
+		 entityManager.getTransaction().commit();
+		//entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
 
 	@Test
-	public void salvarUsuario() {
+	public void salvarUsuarioTipoJogador() {
 		Usuario usuario = new Usuario();
-		usuario.setApelido("Rafael");
+		usuario.setNome("Guardiola");
+		usuario.setApelido("Pepe");
 		usuario.setFacebook(SimNao.NAO);
-		usuario.setLogin("marcelo");
-		usuario.setPosicao(TipoPosicao.VOLANTE);
+		usuario.setLogin("pepe");
+		usuario.setTipoPosicao(TipoPosicao.EXTRA_CAMPO);
 		usuario.setSenha("1");
-		usuario.setTipoUsuario(TipoUsuario.JOGADOR.toString());
+		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.TECNICO));
 		usuarioDAO.salvar(usuario);
+		usuarioDAO.flush();
+		System.out.println(usuario.toJSON());
 	}
 
 	@Test
@@ -69,7 +73,17 @@ public class UsuarioDAOTeste {
 		List<Usuario> jogadores = usuarioDAO.listar(TipoUsuario.JOGADOR);
 		for (Usuario jogador : jogadores) {
 			System.out.println(String.format("Nome: %s - Posição: %s ", jogador.getApelido(),
-					jogador.getPosicao().getDescricao()));
+					jogador.getTipoPosicao().getDescricao()));
+
+		}
+
+	}
+	@Test
+	public void listarUsuarioTecnico() {
+		List<Usuario> jogadores = usuarioDAO.listar(TipoUsuario.TECNICO);
+		for (Usuario jogador : jogadores) {
+			System.out.println(String.format("Nome: %s - Posição: %s ", jogador.getApelido(),
+					jogador.getTipoPosicao().getDescricao()));
 
 		}
 

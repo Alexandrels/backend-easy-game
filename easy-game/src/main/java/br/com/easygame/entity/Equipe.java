@@ -3,6 +3,7 @@ package br.com.easygame.entity;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.json.Json;
@@ -42,6 +43,7 @@ public class Equipe implements Serializable {
 		inverseJoinColumns = { @JoinColumn(name = "id_jogador") })
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 	
+	
 	public Equipe() {
 		// TODO Auto-generated constructor stub
 	}
@@ -70,6 +72,7 @@ public class Equipe implements Serializable {
 	public void setJogadores(List<Jogador> jogadores) {
 		this.jogadores = jogadores;
 	}
+
 
 	public void adicionarJogador(Jogador jogador) {
 		jogadores.add(jogador);

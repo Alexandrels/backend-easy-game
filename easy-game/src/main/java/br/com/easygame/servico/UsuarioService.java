@@ -3,7 +3,6 @@
  */
 package br.com.easygame.servico;
 
-import java.io.StringReader;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,7 +10,6 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -48,29 +46,14 @@ public class UsuarioService {
 	public Response cadastrarUsuario(JsonObject json) throws Exception {
 		Response response = null;
 		try {
-			// JsonReader jsonReader = Json.createReader(new
-			// StringReader(json));
-			// JsonObject jsonObject = jsonReader.readObject();
-			String login = json.getString("login");
-			String senha = json.getString("senha");
-			String latitude = json.getString("latitude");
-			String longitude = json.getString("longitude");
-			Integer facebook = Integer.valueOf(json.getString("facebook"));
-			Integer tipo = Integer.valueOf(json.getString("tipoUsuario"));
-			String apelido = json.getString("apelido");
-			String posicao = json.getString("posição");
-			if (login != null && senha != null) {
-				Usuario usuario = new Usuario();
-				usuario.setLogin(login);
-				usuario.setSenha(senha);
-				usuario.setLatitude(Double.parseDouble(latitude));
-				usuario.setLongitude(Double.parseDouble(longitude));
-				usuarioDAO.salvar(usuario);
+			Usuario usuario = new Usuario();
+			usuario = usuario.toUsuario(json);
+			usuarioDAO.salvar(usuario);
+			usuarioDAO.flush();
 
-				response = Response.status(Response.Status.CREATED).entity("jogador salvo com sucesso!")
-						.location(UriBuilder.fromUri("dsds").build(usuario.getId())).build();
-				// localhost:8080/easy-game/equipe/19
-			}
+			response = Response.status(Response.Status.CREATED).entity("jogador salvo com sucesso!")
+					.location(UriBuilder.fromUri("dsds").build(usuario.getId())).build();
+			// localhost:8080/easy-game/equipe/19
 
 		} catch (Exception e) {
 			e.getCause();
