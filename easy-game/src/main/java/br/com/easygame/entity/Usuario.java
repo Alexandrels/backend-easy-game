@@ -4,7 +4,14 @@
 package br.com.easygame.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import br.com.easygame.enuns.SimNao;
+import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.enuns.TipoUsuario;
 
 /**
@@ -39,13 +47,54 @@ public class Usuario implements Serializable {
 	private Double latitude;
 	@Column(name = "longitude")
 	private Double longitude;
-	@Column(name = "tipo_usuario")
-	private TipoUsuario tipoUsuario = TipoUsuario.USUARIO_ADMINISTRADOR;
+	@Column(name = "tipo")
+	private String tipoUsuario;
 	@Column(name = "facebook")
 	private SimNao facebook = SimNao.NAO;
 	@Column(name = "apelido")
 	private String apelido;
-	
+	@Column(name = "posicao")
+	private TipoPosicao posicao;
+
+	public void tipoUsuarioParaString(List<TipoUsuario> tiposUsuario) {
+		StringBuilder builder = new StringBuilder();
+		for (TipoUsuario tipoUsuario : tiposUsuario) {
+			builder.append(tipoUsuario.ordinal()).append(";");
+		}
+		this.tipoUsuario = builder.toString();
+	}
+
+	public List<TipoUsuario> stringParaTipoUsuario() {
+		List<TipoUsuario> tiposUsuarios = new ArrayList<>();
+		String[] tipo = getTipoUsuario().split(";");
+		for (String string : tipo) {
+			tiposUsuarios.add(TipoUsuario.values()[Integer.valueOf(string)]);
+		}
+		return tiposUsuarios;
+
+	}
+
+	public List<TipoUsuario> tiposDoUsuario() {
+
+		return null;
+
+	}
+
+	public SimNao getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(SimNao facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getApelido() {
+		return apelido;
+	}
+
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
+	}
 
 	public String getLogin() {
 		return login;
@@ -112,11 +161,19 @@ public class Usuario implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public TipoUsuario getTipoUsuario() {
+	public TipoPosicao getPosicao() {
+		return posicao;
+	}
+
+	public void setPosicao(TipoPosicao posicao) {
+		this.posicao = posicao;
+	}
+
+	public String getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+	public void setTipoUsuario(String tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 
@@ -124,6 +181,35 @@ public class Usuario implements Serializable {
 	public String toString() {
 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", latitude=" + latitude + ", longitude="
 				+ longitude + "]";
+	}
+
+	public JsonObject toJSON() {
+		JsonObjectBuilder builder = Json.createObjectBuilder().add("id", getId()).add("apelido", getApelido())
+				.add("login", getLogin()).add("senha", getSenha()).add("latitude", getLatitude())
+				.add("longitude", getLongitude()).add("facebook", getFacebook().ordinal());
+		JsonArrayBuilder jogadoresJson = Json.createArrayBuilder();
+		for (TipoUsuario tipoUsuario : stringParaTipoUsuario()) {
+			jogadoresJson.add(Json.createObjectBuilder().add("id", tipoUsuario.ordinal()));
+
+		}
+		builder.add("posicao", jogadoresJson);
+		return builder.build();
+	}
+
+	public Usuario toUsuario(JsonObject jsonObject) {
+		Usuario usuario = new Usuario();
+		usuario.setId(Long.valueOf(jsonObject.get("id").toString()));
+		usuario.setApelido(jsonObject.getString("apelido"));
+		usuario.setFacebook(jsonObject.getInt("facebook") == 1 ? SimNao.SIM : SimNao.NAO);
+		usuario.setLatitude(Double.valueOf(jsonObject.getString("latitude")));
+		usuario.setLongitude(Double.valueOf(jsonObject.getString("longitude")));
+		usuario.setLogin(jsonObject.getString("login"));
+		usuario.setSenha(jsonObject.getString("senha"));
+		if(!jsonObject.getString("posicao").isEmpty()){
+		}
+		usuario.setPosicao(posicao);
+		return null;
+
 	}
 
 }

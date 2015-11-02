@@ -16,7 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 
 import br.com.easygame.conexao.ProducerEntityManager;
@@ -72,7 +71,7 @@ public class EquipeService {
 			entityManager.getTransaction().begin();
 			// aqui um exemplo de como retornar todos os usuarios com JSON
 			UsuarioDAO usuarioDAO = new UsuarioDAO(entityManager);
-			List<Usuario> usuarios = usuarioDAO.listar();
+			List<Usuario> usuarios = usuarioDAO.listarTodos();
 			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 			for (Usuario usuario : usuarios) {
 				arrayBuilder.add(Json.createObjectBuilder().add("id", usuario.getId().toString())

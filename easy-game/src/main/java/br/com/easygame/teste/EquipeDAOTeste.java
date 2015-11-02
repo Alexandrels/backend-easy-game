@@ -77,7 +77,7 @@ public class EquipeDAOTeste {
 			timeJson.add("nome", "Aranhas Pretas");
 			// aqui um exemplo de como retornar todos os usuarios com JSON
 			UsuarioDAO usuarioDAO = new UsuarioDAO(entityManager);
-			List<Usuario> usuarios = usuarioDAO.listar();
+			List<Usuario> usuarios = usuarioDAO.listarTodos();
 			JsonArrayBuilder jogadoresJson = Json.createArrayBuilder();
 			cont = 0;
 			for (Usuario usuario : usuarios) {

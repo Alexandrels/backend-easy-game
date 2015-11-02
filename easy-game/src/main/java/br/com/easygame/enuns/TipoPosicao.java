@@ -7,12 +7,17 @@ package br.com.easygame.enuns;
  * @author alexandre
  *
  */
-public enum TipoUsuario {
+public enum TipoPosicao {
 	
-	TECNICO("Administrador Time"),
-	JOGADOR("Usuario Comum");
+	ATACANTE("Atacante"),
+	GOLEIRO("Goleiro"),
+	MEIO_CAMPO("Meio Campo"),
+	LATERAL("Lateral"),
+	VOLANTE("Volante"),
+	ZAGUEIRO("Zagueiro")
+	;
 	
-	private TipoUsuario(String descricao) {
+	private TipoPosicao(String descricao) {
 		this.descricao = descricao;
 	}
 	private final String descricao;

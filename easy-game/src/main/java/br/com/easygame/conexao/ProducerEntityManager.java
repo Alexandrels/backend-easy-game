@@ -3,28 +3,37 @@
  */
 package br.com.easygame.conexao;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Disposes;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 
 /**
  * 
  * @author mobilesys.alexandre
  *
  */
+@ApplicationScoped
 public class ProducerEntityManager {
-
-	/**
-	 * EntitymanagerFactory
-	 */
+	public final static String UNIT_NAME = "easy-game";
+	@PersistenceUnit(unitName = UNIT_NAME, name = UNIT_NAME)
 	private static EntityManagerFactory entityManagerFactory;
-	
-	public static EntityManager getEntityManager(){
-		if(entityManagerFactory == null){
-			//ele vai pegar o outro entityManager que não funciona pra teste local, só funciona no servidor
-			entityManagerFactory = Persistence.createEntityManagerFactory("easy-game-local");
-		}
+
+	@Produces
+	@Default
+	@RequestScoped
+	public static EntityManager getEntityManager() {
 		return entityManagerFactory.createEntityManager();
+	}
+
+	public void dispose(@Disposes @Default EntityManager entityManager) {
+		if (entityManager.isOpen()) {
+			entityManager.close();
+		}
 	}
 
 }

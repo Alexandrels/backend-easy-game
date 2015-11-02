@@ -24,12 +24,16 @@ import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Jogador;
 import br.com.easygame.entity.Usuario;
+import br.com.easygame.enuns.SimNao;
+import br.com.easygame.enuns.TipoPosicao;
+import br.com.easygame.enuns.TipoUsuario;
 
-public class JogadorDAOTeste {
+public class UsuarioDAOTeste {
 	private EntityManager entityManager;
 	private EquipeDAO equipeDAO;
 	private JogadorDAO jogadorDAO;
 	private int cont = 0;
+	private UsuarioDAO usuarioDAO;
 
 	@Before
 	public void antes() {
@@ -38,49 +42,44 @@ public class JogadorDAOTeste {
 
 		equipeDAO = new EquipeDAO(entityManager);
 		jogadorDAO = new JogadorDAO(entityManager);
+		usuarioDAO = new UsuarioDAO(entityManager);
 	}
 
 	@After
 	public void depois() {
-		entityManager.getTransaction().commit();
-		// entityManager.getTransaction().rollback();
+		// entityManager.getTransaction().commit();
+		entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
-	@Test
-	public void editarJogador() {
-		Jogador jogador = new Jogador(1l);
-		System.out.println("Jogador "+jogador.toString());
 
+	@Test
+	public void salvarUsuario() {
+		Usuario usuario = new Usuario();
+		usuario.setApelido("Rafael");
+		usuario.setFacebook(SimNao.NAO);
+		usuario.setLogin("marcelo");
+		usuario.setPosicao(TipoPosicao.VOLANTE);
+		usuario.setSenha("1");
+		usuario.setTipoUsuario(TipoUsuario.JOGADOR.toString());
+		usuarioDAO.salvar(usuario);
 	}
 
 	@Test
-	public void salvarEquipe() {
-		Jogador jogador = jogadorDAO.pesquisarPorId(1l);
-		Equipe equipe = new Equipe();
-		equipe.setNome("Audax F.C.");
-		equipe.setJogadores(new ArrayList<Jogador>());
-		equipe.getJogadores().add(jogador);
-
-		equipeDAO.salvar(equipe);
-
-	}
-
-	@Test
-	public void listarEquipe() {
-		Equipe equipe = equipeDAO.pesquisarPorId(1l);
-		System.out.println("Equipe " + equipe.getNome());
-		System.out.println("Jogadores");
-		for (Jogador jogador : equipe.getJogadores()) {
-			System.out.println("Nome: " + jogador.getNome() + " Posição: " + jogador.getPosicao());
+	public void listarUsuarioJogador() {
+		List<Usuario> jogadores = usuarioDAO.listar(TipoUsuario.JOGADOR);
+		for (Usuario jogador : jogadores) {
+			System.out.println(String.format("Nome: %s - Posição: %s ", jogador.getApelido(),
+					jogador.getPosicao().getDescricao()));
 
 		}
+
 	}
 
 	@Test
 	public void lerObjetoJsonComArrayDentro() {
 		try {
 			JsonObjectBuilder timeJson = Json.createObjectBuilder();
-			timeJson.add("nome", "Calça Jeans");
+			timeJson.add("nome", "Aranhas Pretas");
 			// aqui um exemplo de como retornar todos os usuarios com JSON
 			UsuarioDAO usuarioDAO = new UsuarioDAO(entityManager);
 			List<Usuario> usuarios = usuarioDAO.listarTodos();
@@ -110,7 +109,7 @@ public class JogadorDAOTeste {
 					}
 				}
 				equipeDAO.salvar(equipe);
-				System.out.println("Equipe salva "+ equipe.toString());
+				System.out.println("Equipe salva " + equipe.toString());
 			}
 
 		} catch (JsonException e) {
