@@ -10,17 +10,16 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Usuario;
 
@@ -32,8 +31,15 @@ import br.com.easygame.entity.Usuario;
 @Path(value = "usuario")
 public class UsuarioService {
 
-	@Inject
 	private UsuarioDAO usuarioDAO;
+
+	public UsuarioService() {
+	}
+
+	@Inject
+	public UsuarioService(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
+	}
 
 	/**
 	 * 
@@ -52,7 +58,7 @@ public class UsuarioService {
 			usuarioDAO.flush();
 
 			response = Response.status(Response.Status.CREATED).entity("jogador salvo com sucesso!")
-					.location(UriBuilder.fromUri("dsds").build(usuario.getId())).build();
+					.location(UriBuilder.fromUri("localhost:8080/easy-game/usuario/").build(usuario.getId())).build();
 			// localhost:8080/easy-game/equipe/19
 
 		} catch (Exception e) {
@@ -62,14 +68,21 @@ public class UsuarioService {
 	}
 
 	@GET
+	@Path("{id}")
+	public Usuario retornaUsuario(@PathParam("id") String id) {
+
+		Usuario usuario = usuarioDAO.pesquisarPorId(Long.valueOf(id));
+		if (usuario != null) {
+			return usuario;
+		}
+		return null;
+	}
+
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String listarUsuarios() {
-		EntityManager entityManager = null;
 		try {
-			entityManager = ProducerEntityManager.getEntityManager();
-			entityManager.getTransaction().begin();
 			// aqui um exemplo de como retornar todos os usuarios com JSON
-			UsuarioDAO usuarioDAO = new UsuarioDAO(entityManager);
 			List<Usuario> usuarios = usuarioDAO.listarTodos();
 			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 			for (Usuario usuario : usuarios) {
@@ -82,10 +95,6 @@ public class UsuarioService {
 
 		} catch (Exception e) {
 			e.getCause();
-		} finally {
-			if (entityManager != null) {
-				entityManager.close();
-			}
 		}
 		return "não listou";
 	}

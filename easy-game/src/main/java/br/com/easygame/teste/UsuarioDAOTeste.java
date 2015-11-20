@@ -28,6 +28,7 @@ import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.enuns.TipoUsuario;
+import junit.framework.Assert;
 
 public class UsuarioDAOTeste {
 	private EntityManager entityManager;
@@ -48,7 +49,7 @@ public class UsuarioDAOTeste {
 
 	@After
 	public void depois() {
-		 entityManager.getTransaction().commit();
+		entityManager.getTransaction().commit();
 		//entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
@@ -78,6 +79,7 @@ public class UsuarioDAOTeste {
 		}
 
 	}
+
 	@Test
 	public void listarUsuarioTecnico() {
 		List<Usuario> jogadores = usuarioDAO.listar(TipoUsuario.TECNICO);
@@ -129,6 +131,12 @@ public class UsuarioDAOTeste {
 		} catch (JsonException e) {
 			System.out.println(e.getStackTrace());
 		}
+	}
+
+	@Test
+	public void listarUsuarioPorId() {
+		Usuario usuario = usuarioDAO.pesquisarPorId(1l);
+		System.out.println(usuario.toString());
 	}
 
 }

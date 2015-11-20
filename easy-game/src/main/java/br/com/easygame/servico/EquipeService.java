@@ -5,6 +5,7 @@ package br.com.easygame.servico;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -32,15 +33,23 @@ import br.com.easygame.entity.Usuario;
 @Path(value = "equipe")
 public class EquipeService {
 
+	private EquipeDAO equipeDAO;
+	private UsuarioDAO usuarioDAO;
+	
+	public EquipeService() {
+	}
+	
+	@Inject
+	public EquipeService(EquipeDAO equipeDAO, UsuarioDAO usuarioDAO) {
+		this.equipeDAO = equipeDAO;
+		this.usuarioDAO = usuarioDAO;
+	}
+
 	//fez tudo OK HTTP CREATED 201
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response cadastrarEquipe(String json) throws Exception {
-		EntityManager entityManager = null;
 		try {
-			entityManager = ProducerEntityManager.getEntityManager();
-			entityManager.getTransaction().begin();
-			EquipeDAO equipeDAO = new EquipeDAO(entityManager);
 			Equipe equipeJson = Equipe.toEquipe(json);
 			equipeDAO.salvar(equipeJson);
 
@@ -53,10 +62,6 @@ public class EquipeService {
 			e.getCause();
 			Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 					.entity("json").build();
-		} finally {
-			if (entityManager != null) {
-				entityManager.close();
-			}
 		}
 		//return Json.createObjectBuilder().add("erro", "Não salvou o equipe").build().toString();
 		return null;
@@ -65,12 +70,7 @@ public class EquipeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String listarEquipes() {
-		EntityManager entityManager = null;
 		try {
-			entityManager = ProducerEntityManager.getEntityManager();
-			entityManager.getTransaction().begin();
-			// aqui um exemplo de como retornar todos os usuarios com JSON
-			UsuarioDAO usuarioDAO = new UsuarioDAO(entityManager);
 			List<Usuario> usuarios = usuarioDAO.listarTodos();
 			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 			for (Usuario usuario : usuarios) {
@@ -83,10 +83,6 @@ public class EquipeService {
 
 		} catch (Exception e) {
 			e.getCause();
-		} finally {
-			if (entityManager != null) {
-				entityManager.close();
-			}
 		}
 		return "não listou";
 	}

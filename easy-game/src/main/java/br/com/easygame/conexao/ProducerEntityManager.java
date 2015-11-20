@@ -19,14 +19,15 @@ import javax.persistence.PersistenceUnit;
  */
 @ApplicationScoped
 public class ProducerEntityManager {
+	
 	public final static String UNIT_NAME = "easy-game";
 	@PersistenceUnit(unitName = UNIT_NAME, name = UNIT_NAME)
-	private static EntityManagerFactory entityManagerFactory;
+	private EntityManagerFactory entityManagerFactory;
 
 	@Produces
 	@Default
 	@RequestScoped
-	public static EntityManager getEntityManager() {
+	public EntityManager getEntityManager() {
 		return entityManagerFactory.createEntityManager();
 	}
 

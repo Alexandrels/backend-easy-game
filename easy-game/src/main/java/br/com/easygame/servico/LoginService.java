@@ -5,17 +5,16 @@ package br.com.easygame.servico;
 
 import java.io.StringReader;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.dao.UsuarioDAO;
 
 /**
@@ -26,14 +25,21 @@ import br.com.easygame.dao.UsuarioDAO;
 @Path(value = "login")
 public class LoginService {
 
+	
+	private UsuarioDAO usuarioDAO;
+
+	public LoginService() {
+	}
+	
+	@Inject
+	public LoginService(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String validarLogin(String json) throws Exception {
-		EntityManager entityManager = null;
 		try {
-			entityManager = ProducerEntityManager.getEntityManager();
-			entityManager.getTransaction().begin();
-			UsuarioDAO usuarioDAO = new UsuarioDAO(entityManager);
 			JsonReader jsonReader = Json.createReader(new StringReader(json));
 			JsonObject jsonObject = jsonReader.readObject();
 			String login = jsonObject.getString("login");
@@ -45,10 +51,6 @@ public class LoginService {
 
 		} catch (Exception e) {
 			e.getCause();
-		} finally {
-			if (entityManager != null) {
-				entityManager.close();
-			}
 		}
 		return Json.createObjectBuilder().add("erro", "Não conseguiu autenticar no banco").build().toString();
 	}

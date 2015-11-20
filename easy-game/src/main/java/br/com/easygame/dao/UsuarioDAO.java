@@ -69,11 +69,24 @@ public class UsuarioDAO {
 		}
 	}
 
+	public Usuario pesquisarPorId(Long id) {
+		try {
+			StringBuilder builder = new StringBuilder("SELECT u FROM Usuario u ")
+					.append(" WHERE u.id = :id ");
+			return entityManager.createQuery(builder.toString(), Usuario.class)
+					.setParameter("id", id)
+					.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+
+	}
+
 	public List<Usuario> listar(TipoUsuario tipoUsuario) {
 		try {
 			StringBuilder builder = new StringBuilder(" SELECT u FROM Usuario u ")
 					.append(" WHERE u.tipoUsuario LIKE ")
-					.append(" '%"+tipoUsuario.ordinal()+"%' ");
+					.append(" '%" + tipoUsuario.ordinal() + "%' ");
 			return entityManager.createQuery(builder.toString(), Usuario.class)
 					.getResultList();
 		} catch (Exception e) {

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.JogadorDAO;
+import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Jogador;
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.SimNao;
@@ -30,7 +31,7 @@ public class UsuarioServiceTeste {
 
 	private EntityManager entityManager;
 	private EquipeDAO equipeDAO;
-	private JogadorDAO jogadorDAO;
+	private UsuarioDAO usuarioDAO;
 	private int cont = 0;
 
 	@Before
@@ -39,7 +40,7 @@ public class UsuarioServiceTeste {
 		entityManager.getTransaction().begin();
 
 		equipeDAO = new EquipeDAO(entityManager);
-		jogadorDAO = new JogadorDAO(entityManager);
+		usuarioDAO = new UsuarioDAO(entityManager);
 	}
 
 	@After
@@ -58,20 +59,58 @@ public class UsuarioServiceTeste {
 
 	@Test
 	public void cadastrarUsuarioTecnico() throws Exception {
-		UsuarioService service = new UsuarioService();
+		UsuarioService service = new UsuarioService(usuarioDAO);
+		
 		Usuario usuario = new Usuario();
-		usuario.setNome("Murici");
-		usuario.setApelido("Murici");
+		usuario.setNome("Joao");
+		usuario.setApelido("jo");
 		usuario.setFacebook(SimNao.NAO);
-		usuario.setLogin("pepe");
+		usuario.setLogin("jo");
 		usuario.setTipoPosicao(TipoPosicao.EXTRA_CAMPO);
 		usuario.setSenha("1");
 		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.TECNICO));
-
 		Response response = service.cadastrarUsuario(usuario.toJSON());
 
-		System.out.println("Response: " + response);
+		System.out.println("Response: " + response.getEntity());
+		System.out.println("Response: " + response.getLocation());
 
 	}
+	@Test
+	public void cadastrarUsuarioJogador() throws Exception {
+		UsuarioService service = new UsuarioService(usuarioDAO);
+		
+		Usuario usuario = new Usuario();
+		usuario.setNome("Alexandre");
+		usuario.setApelido("ale");
+		usuario.setFacebook(SimNao.NAO);
+		usuario.setLogin("ale");
+		usuario.setTipoPosicao(TipoPosicao.ZAGUEIRO);
+		usuario.setSenha("1");
+		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
+		Response response = service.cadastrarUsuario(usuario.toJSON());
+
+		System.out.println("Response: " + response.getEntity());
+		System.out.println("Response: " + response.getLocation());
+
+	}
+	@Test
+	public void listarUsuarioJogador() throws Exception {
+		UsuarioService service = new UsuarioService(usuarioDAO);
+		
+		Usuario usuario = new Usuario();
+		usuario.setNome("Alexandre");
+		usuario.setApelido("ale");
+		usuario.setFacebook(SimNao.NAO);
+		usuario.setLogin("ale");
+		usuario.setTipoPosicao(TipoPosicao.ZAGUEIRO);
+		usuario.setSenha("1");
+		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
+		Response response = service.cadastrarUsuario(usuario.toJSON());
+
+		System.out.println("Response: " + response.getEntity());
+		System.out.println("Response: " + response.getLocation());
+
+	}
+
 
 }
