@@ -3,6 +3,10 @@ package br.com.easygame.teste;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +16,9 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 
+import br.com.easygame.entity.util.ConverterData;
 import br.com.easygame.enuns.TipoUsuario;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 public class Teste {
 
@@ -41,10 +47,18 @@ public class Teste {
 //		JsonObject jsonObject = jsonReader.readObject();
 //		JsonValue jsonValue = jsonObject.get("array");
 //		System.out.println(jsonValue);
-		List<TipoUsuario> tipos = new ArrayList<>(Arrays.asList(TipoUsuario.values()));
-		salvarTipoUsuario(tipos);
+//		List<TipoUsuario> tipos = new ArrayList<>(Arrays.asList(TipoUsuario.values()));
+//		salvarTipoUsuario(tipos);
+//		
+//		tipos(salvarTipoUsuario(tipos));
 		
-		tipos(salvarTipoUsuario(tipos));
+//		String str = "1986-04-08 12:30:25";
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+//		System.out.println(dateTime);
+//		Timestamp timestamp = Timestamp.valueOf(dateTime);
+		Timestamp timestamp = new ConverterData("yyyy-MM-dd HH:mm:ss", "1986-04-08 12:30:25").dataStringToTimestamp();
+		System.out.println(timestamp);
 		
 		
 		

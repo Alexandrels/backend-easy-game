@@ -3,7 +3,6 @@ package br.com.easygame.entity;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.json.Json;

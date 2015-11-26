@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.TipoUsuario;
@@ -44,6 +45,10 @@ public class UsuarioDAO {
 
 	public void editar(Usuario usuario) {
 		entityManager.merge(usuario);
+	}
+
+	public void excluir(Usuario usuario) {
+		entityManager.remove(usuario);
 	}
 
 	public boolean autenticar(String login, String senha) {
@@ -91,6 +96,23 @@ public class UsuarioDAO {
 					.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Usuario>();
+		}
+	}
+
+	public boolean existeLogin(String login) {
+		try {
+			StringBuilder builder = new StringBuilder(" SELECT u.id FROM Usuario u ")
+					.append(" WHERE u.login =  :login");
+			entityManager.createQuery(builder.toString(), Long.class)
+					.setParameter("login", login)
+					.setMaxResults(1)
+					.getSingleResult();
+			return true;
+
+		} catch (NoResultException e) {
+			return false;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 }

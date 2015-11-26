@@ -28,7 +28,6 @@ import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.enuns.TipoUsuario;
-import junit.framework.Assert;
 
 public class UsuarioDAOTeste {
 	private EntityManager entityManager;
@@ -138,5 +137,6 @@ public class UsuarioDAOTeste {
 		Usuario usuario = usuarioDAO.pesquisarPorId(1l);
 		System.out.println(usuario.toString());
 	}
+
 
 }
