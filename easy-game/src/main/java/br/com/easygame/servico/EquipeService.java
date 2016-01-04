@@ -42,7 +42,7 @@ public class EquipeService {
 	@Inject
 	public EquipeService(EquipeDAO equipeDAO, UsuarioDAO usuarioDAO) {
 		this.equipeDAO = equipeDAO;
-		this.usuarioDAO = usuarioDAO;
+		this.usuarioDAO = usuarioDAO; 
 	}
 
 	//fez tudo OK HTTP CREATED 201
