@@ -1,11 +1,14 @@
+
 package br.com.easygame.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.io.StringReader;
+import java.sql.Date;
 import java.util.List;
 
-import javax.json.JsonException;
+import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,15 +19,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.joda.time.LocalDate;
-
-import br.com.easygame.entity.Evento;
 import br.com.easygame.enuns.SimNao;
-import br.com.easygame.enuns.TipoPosicao;
 
-@Table(name = "equipe")
 @Entity
-public class Equipe implements Serializable {
+@Table(name = "notificacao")
+public class Notificacao implements Serializable {
 
 	/**
 	 * 
@@ -35,20 +34,17 @@ public class Equipe implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@Column(name = "nome")
-	private String nome;
-	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_fundacao")
-	private Date dataFundacao;
-	
-	
-	
-	
-	public Equipe() {
-		// TODO Auto-generated constructor stub
-	}
+	@Column(name = "data_hora")
+	private Date dataHora;
 
+	@Column(name = "notificado")
+	private SimNao notiifcado;
+	@ManyToMany(mappedBy = "notificacoes")
+	private List<Evento> eventos;
+
+	public Notificacao() {
+	}
 
 	public Long getId() {
 		return id;
@@ -58,24 +54,21 @@ public class Equipe implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Date getDataHora() {
+		return dataHora;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setDataHora(Date dataHora) {
+		this.dataHora = dataHora;
 	}
 
-
-	public Date getDataFundacao() {
-		return dataFundacao;
+	public SimNao getNotiifcado() {
+		return notiifcado;
 	}
 
-
-	public void setDataFundacao(Date dataFundacao) {
-		this.dataFundacao = dataFundacao;
+	public void setNotiifcado(SimNao notiifcado) {
+		this.notiifcado = notiifcado;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -93,7 +86,7 @@ public class Equipe implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Equipe other = (Equipe) obj;
+		Notificacao other = (Notificacao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -102,21 +95,15 @@ public class Equipe implements Serializable {
 		return true;
 	}
 
+	public static Notificacao toEquipe(String json) {
+		Notificacao notificacao = new Notificacao();
 
-	public Equipe toEquipe(JsonObject jsonObject) {
-		Equipe equipe = new Equipe();
-		try {
-			if (jsonObject.containsKey("id")) {
-				equipe.setId(Long.valueOf(jsonObject.get("id").toString()));
-			}
-			equipe.setNome(jsonObject.getString("nome"));
-			String dataFundacao = jsonObject.getString("dataFundacao");
-			equipe.setDataFundacao(new LocalDate(dataFundacao).toDate());
-			return equipe;
-		} catch (JsonException e) {
-			throw new RuntimeException("Erro ao ler JSON de Usuario", e);
+		JsonReader jsonReader = Json.createReader(new StringReader(json));
+		JsonObject jsonObject = jsonReader.readObject();
+		if (!jsonObject.containsKey("dataHora")) {
+			throw new IllegalArgumentException("Atributo 'nome' é obrigatório");
 		}
-
+		return notificacao;
 	}
 
 }

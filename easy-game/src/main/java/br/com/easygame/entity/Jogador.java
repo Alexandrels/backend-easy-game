@@ -1,16 +1,14 @@
 package br.com.easygame.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import br.com.easygame.entity.Equipe;
+
 @Table(name = "jogador")
 @Entity
 public class Jogador implements Serializable {
@@ -32,8 +30,8 @@ public class Jogador implements Serializable {
 	@Column(name = "telefone")
 	private String telefone;
 
-	@ManyToMany(mappedBy = "jogadores")
-	private List<Equipe> equipes;
+//	@ManyToMany(mappedBy = "jogadores")
+//	private List<Equipe> equipes;
 	
 	public Jogador() {
 		// TODO Auto-generated constructor stub
@@ -84,14 +82,5 @@ public class Jogador implements Serializable {
 		this.telefone = telefone;
 	}
 
-
-	@Override
-	public String toString() {
-		return "Jogador [id=" + id + ", nome=" + nome + ", posicao=" + posicao + ", endereco=" + endereco
-				+ ", telefone=" + telefone + ", equipes=" + equipes + "]";
-	}
-
-
-	
 
 }

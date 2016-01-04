@@ -50,14 +50,14 @@ public class EquipeService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response cadastrarEquipe(String json) throws Exception {
 		try {
-			Equipe equipeJson = Equipe.toEquipe(json);
-			equipeDAO.salvar(equipeJson);
-
-			Response response = Response.status(Response.Status.CREATED)
-					.entity("sadjgdagsdjh")
-					.location(UriBuilder.fromUri("dsds").build(equipeJson.getId())).build();
+//			Equipe equipeJson = Equipe.toEquipe(json);
+//			equipeDAO.salvar(equipeJson);
+//
+//			Response response = Response.status(Response.Status.CREATED)
+//					.entity("sadjgdagsdjh")
+//					.location(UriBuilder.fromUri("dsds").build(equipeJson.getId())).build();
 			//localhost:8080/easy-game/equipe/19
-			return response;
+//			return response;
 		} catch (Exception e) {
 			e.getCause();
 			Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)

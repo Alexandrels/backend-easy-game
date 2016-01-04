@@ -78,6 +78,7 @@ public class Recorrencia implements Serializable {
 		if (!jsonObject.containsKey("tipoRecorrencia")) {
 			throw new IllegalArgumentException("Atributo 'nome' é obrigatório");
 		}
+		
 		return recorrencia;
 	}
 

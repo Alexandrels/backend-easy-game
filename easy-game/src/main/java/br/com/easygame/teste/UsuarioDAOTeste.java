@@ -114,15 +114,15 @@ public class UsuarioDAOTeste {
 			if (nome != null) {
 				Equipe equipe = new Equipe();
 				equipe.setNome(nome);
-				equipe.setJogadores(new ArrayList<Jogador>());
-				if (!jsonObject.getJsonArray("jogadores").isEmpty()) {
-					for (JsonValue jogadorJson : jsonObject.getJsonArray("jogadores")) {
-						JsonReader reader = Json.createReader(new StringReader(jogadorJson.toString()));
-						JsonObject objeto = reader.readObject();
-						Jogador jogador = jogadorDAO.pesquisarPorId(Long.valueOf(objeto.getString("id")));
-						equipe.getJogadores().add(jogador);
-					}
-				}
+//				equipe.setJogadores(new ArrayList<Jogador>());
+//				if (!jsonObject.getJsonArray("jogadores").isEmpty()) {
+//					for (JsonValue jogadorJson : jsonObject.getJsonArray("jogadores")) {
+//						JsonReader reader = Json.createReader(new StringReader(jogadorJson.toString()));
+//						JsonObject objeto = reader.readObject();
+//						Jogador jogador = jogadorDAO.pesquisarPorId(Long.valueOf(objeto.getString("id")));
+//						equipe.getJogadores().add(jogador);
+//					}
+//				}
 				equipeDAO.salvar(equipe);
 				System.out.println("Equipe salva " + equipe.toString());
 			}

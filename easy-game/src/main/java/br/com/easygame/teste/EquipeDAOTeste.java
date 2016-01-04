@@ -51,9 +51,9 @@ public class EquipeDAOTeste {
 	public void salvarEquipe() {
 		Jogador jogador = jogadorDAO.pesquisarPorId(1l);
 		Equipe equipe = new Equipe();
-		equipe.setNome("Audax F.C.");
-		equipe.setJogadores(new ArrayList<Jogador>());
-		equipe.getJogadores().add(jogador);
+//		equipe.setNome("Audax F.C.");
+//		equipe.setJogadores(new ArrayList<Jogador>());
+//		equipe.getJogadores().add(jogador);
 
 		equipeDAO.salvar(equipe);
 
@@ -64,10 +64,10 @@ public class EquipeDAOTeste {
 		Equipe equipe = equipeDAO.pesquisarPorId(1l);
 		System.out.println("Equipe " + equipe.getNome());
 		System.out.println("Jogadores");
-		for (Jogador jogador : equipe.getJogadores()) {
-			System.out.println("Nome: " + jogador.getNome() + " Posição: " + jogador.getPosicao());
-
-		}
+//		for (Jogador jogador : equipe.getJogadores()) {
+//			System.out.println("Nome: " + jogador.getNome() + " Posição: " + jogador.getPosicao());
+//
+//		}
 	}
 
 	@Test
@@ -94,13 +94,13 @@ public class EquipeDAOTeste {
 			if (nome != null) {
 				Equipe equipe = new Equipe();
 				equipe.setNome(nome);
-				equipe.setJogadores(new ArrayList<Jogador>());
+//				equipe.setJogadores(new ArrayList<Jogador>());
 				if (!jsonObject.getJsonArray("jogadores").isEmpty()) {
 					for (JsonValue jogadorJson : jsonObject.getJsonArray("jogadores")) {
 						JsonReader reader = Json.createReader(new StringReader(jogadorJson.toString()));
 						JsonObject objeto = reader.readObject();
 						Jogador jogador = jogadorDAO.pesquisarPorId(Long.valueOf(objeto.getString("id")));
-						equipe.getJogadores().add(jogador);
+//						equipe.getJogadores().add(jogador);
 					}
 				}
 				equipeDAO.salvar(equipe);
