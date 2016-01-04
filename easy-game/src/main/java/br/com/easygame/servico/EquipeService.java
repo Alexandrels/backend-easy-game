@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,22 +16,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 
-import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.UsuarioDAO;
-import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Usuario;
 
 /**
  * @author Alexandre
- *
+ * TEste de commit
  */
 @Named
 @Path(value = "equipe")
-public class EquipeService {
-
+	public class EquipeService {
 	private EquipeDAO equipeDAO;
 	private UsuarioDAO usuarioDAO;
 	
